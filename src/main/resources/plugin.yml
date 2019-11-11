@@ -1,0 +1,5 @@
+name: ${name}
+version: Build ${version}
+author: TechToolbox (@nkomarn)
+main: xyz.nkomarn.${name}.${name}
+description: The core for Firestarter proxies!
