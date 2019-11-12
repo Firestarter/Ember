@@ -8,3 +8,8 @@ discord:
 vote:
   message: "&6&l» &7Vote at &6https://git.io/Jew2k&7. You've voted &6[votes] &7times."
   link: "https://git.io/Jew2k"
+
+playtime:
+  border: "&r&m&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  playtime: "&7Playtime: &6[playtime]\n"
+  joined: "&7Join date: &6[joined]\n"

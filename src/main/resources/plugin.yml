@@ -9,3 +9,6 @@ commands:
     description: "View the Discord server invite."
   vote:
     description: "View the amount of times you have voted as well as the vote link."
+  playtime:
+    description: "View the total amount of time you have spent playing on Firestarter!"
+    aliases: ["played", "joined"]

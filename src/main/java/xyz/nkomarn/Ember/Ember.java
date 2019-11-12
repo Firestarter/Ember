@@ -16,6 +16,7 @@ import net.md_5.bungee.config.YamlConfiguration;
 import net.md_5.bungee.event.EventHandler;
 import org.bson.Document;
 import xyz.nkomarn.Ember.command.Discord;
+import xyz.nkomarn.Ember.command.Playtime;
 import xyz.nkomarn.Ember.command.Vote;
 import xyz.nkomarn.Ember.listener.JoinEvent;
 import xyz.nkomarn.Ember.task.PlaytimeCounter;
@@ -45,8 +46,10 @@ public class Ember extends Plugin implements Listener {
         playerData = Database.getSyncAsyncCollection(databaseName, "players");
 
         getProxy().getPluginManager().registerListener(this, new JoinEvent());
+
         getProxy().getPluginManager().registerCommand(this, new Discord());
         getProxy().getPluginManager().registerCommand(this, new Vote());
+        getProxy().getPluginManager().registerCommand(this, new Playtime());
 
         getProxy().getScheduler().schedule(this, new PlaytimeCounter(), 0, 1, TimeUnit.MINUTES);
 
