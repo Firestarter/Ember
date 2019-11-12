@@ -11,8 +11,6 @@ import xyz.nkomarn.Ember.Ember;
 import xyz.nkomarn.Ember.util.Config;
 import xyz.nkomarn.Kerosene.database.subscribers.BasicSubscriber;
 
-import javax.xml.soap.Text;
-import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -47,6 +45,6 @@ public class Playtime extends Command {
 
     // Converts an integer into a time string
     private String intToTimeString(int time) {
-        return time/24/60 + " days, " + time/60%24 + " hours, and " + time%60 + " minutes";
+        return time / 24 / 60 + " days, " + time / 60 % 24 + " hours, and " + time % 60 + " minutes";
     }
 }
