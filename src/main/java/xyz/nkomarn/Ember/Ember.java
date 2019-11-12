@@ -7,6 +7,7 @@ import xyz.nkomarn.Ember.command.Discord;
 import xyz.nkomarn.Ember.command.Playtime;
 import xyz.nkomarn.Ember.command.Vote;
 import xyz.nkomarn.Ember.listener.JoinEvent;
+import xyz.nkomarn.Ember.listener.VoteEvent;
 import xyz.nkomarn.Ember.task.PlaytimeCounter;
 import xyz.nkomarn.Ember.util.Config;
 import xyz.nkomarn.Kerosene.database.Database;
@@ -27,12 +28,15 @@ public class Ember extends Plugin implements Listener {
         playerData = Database.getSyncAsyncCollection(databaseName, "players");
 
         getProxy().getPluginManager().registerListener(this, new JoinEvent());
+        getProxy().getPluginManager().registerListener(this, new VoteEvent());
 
         getProxy().getPluginManager().registerCommand(this, new Discord());
         getProxy().getPluginManager().registerCommand(this, new Vote());
         getProxy().getPluginManager().registerCommand(this, new Playtime());
 
         getProxy().getScheduler().schedule(this, new PlaytimeCounter(), 0, 1, TimeUnit.MINUTES);
+
+        getProxy().registerChannel("firestarter");
     }
 
     public void onDisable() {

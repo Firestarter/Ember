@@ -17,6 +17,10 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
     <repository>
+      <id>bintray-repo</id>
+      <url>https://dl.bintray.com/nuvotifier/maven/</url>
+    </repository>
+    <repository>
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
@@ -42,8 +46,14 @@
       <artifactId>kerosene</artifactId>
       <version>361c53aec8</version>
     </dependency>
+    <dependency>
+      <groupId>com.vexsoftware</groupId>
+      <artifactId>nuvotifier-universal</artifactId>
+      <version>2.3.4</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
-  
+
   <build>
     <directory>target</directory>
     <resources>
