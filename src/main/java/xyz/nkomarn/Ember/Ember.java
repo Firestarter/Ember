@@ -1,4 +1,5 @@
 package xyz.nkomarn.Ember;
+import com.google.common.io.ByteStreams;
 import net.md_5.bungee.api.Callback;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -9,20 +10,47 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import net.md_5.bungee.event.EventHandler;
+import org.bson.Document;
+import xyz.nkomarn.Ember.command.Discord;
+import xyz.nkomarn.Ember.command.Vote;
+import xyz.nkomarn.Ember.listener.JoinEvent;
+import xyz.nkomarn.Ember.task.PlaytimeCounter;
+import xyz.nkomarn.Ember.util.Config;
+import xyz.nkomarn.Kerosene.database.Database;
+import xyz.nkomarn.Kerosene.database.SyncAsyncCollection;
 
+import java.io.*;
+import java.lang.annotation.Documented;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 public class Ember extends Plugin implements Listener {
 
+    public static Ember instance;
     private static HashMap<ServerInfo, Boolean> status = new HashMap<>();;
     private static HashMap<UUID, ServerInfo> lastServer = new HashMap<>();
 
+    public static SyncAsyncCollection<Document> playerData;
+
     public void onEnable() {
-        getProxy().registerChannel("BungeeCord");
+        instance = this;
+        Config.loadConfig();
+
+        final String databaseName = Config.getString("database.name");
+        playerData = Database.getSyncAsyncCollection(databaseName, "players");
+
+        getProxy().getPluginManager().registerListener(this, new JoinEvent());
+        getProxy().getPluginManager().registerCommand(this, new Discord());
+        getProxy().getPluginManager().registerCommand(this, new Vote());
+
+        getProxy().getScheduler().schedule(this, new PlaytimeCounter(), 0, 1, TimeUnit.MINUTES);
+
+        /*getProxy().registerChannel("BungeeCord");
         getProxy().getPluginManager().registerListener(this, this);
         getProxy().getScheduler().schedule(this, new Runnable() {
 
@@ -71,14 +99,14 @@ public class Ember extends Plugin implements Listener {
                 }
             }
 
-        }, 1, 10, TimeUnit.SECONDS);
+        }, 1, 10, TimeUnit.SECONDS);*/
     }
 
     public void onDisable() {
         
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onServerSwitch(ServerConnectEvent e) {
         if (e.getTarget().getName().equals("fallback")) {
             return;
@@ -86,5 +114,5 @@ public class Ember extends Plugin implements Listener {
         lastServer.put(e.getPlayer().getUniqueId(), e.getTarget());
         getLogger().log(Level.INFO, String.format("%s's last server was %s.",
                 e.getPlayer().getName(), lastServer.get(e.getPlayer().getUniqueId())));
-    }
+    }*/
 }

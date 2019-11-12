@@ -3,3 +3,9 @@ version: Build ${version}
 author: TechToolbox (@nkomarn)
 main: xyz.nkomarn.${name}.${name}
 description: The core for Firestarter proxies!
+
+commands:
+  discord:
+    description: "View the Discord server invite."
+  vote:
+    description: "View the amount of times you have voted as well as the vote link."
