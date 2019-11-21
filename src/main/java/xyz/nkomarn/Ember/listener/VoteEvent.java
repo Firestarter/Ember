@@ -4,7 +4,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Filters;
-import com.vexsoftware.votifier.model.VotifierEvent;
+import com.vexsoftware.votifier.bungee.events.VotifierEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
