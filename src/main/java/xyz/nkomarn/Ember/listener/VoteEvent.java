@@ -5,6 +5,7 @@ import com.google.common.io.ByteStreams;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Filters;
 import com.vexsoftware.votifier.bungee.events.VotifierEvent;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -18,7 +19,9 @@ public class VoteEvent implements Listener {
     @EventHandler
     public void onVote(VotifierEvent event) {
         ForkJoinPool.commonPool().submit(() -> {
-            final ProxiedPlayer player = Ember.instance.getProxy().getPlayer(event.getVote().getUsername());
+            final String username = event.getVote().getUsername();
+            ProxyServer.getInstance().getLogger().info(String.format("Received vote from %s.", username));
+            final ProxiedPlayer player = Ember.instance.getProxy().getPlayer(username);
             final String uuid = player.getUniqueId().toString();
             Ember.playerData.sync().updateOne(Filters.eq("uuid", uuid), new Document("$inc",
                     new BasicDBObject().append("votes", 1)));
@@ -27,7 +30,7 @@ public class VoteEvent implements Listener {
 
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("vote");
-            player.getServer().getInfo().sendData("firestarter", out.toByteArray());
+            player.getServer().getInfo().sendData("firestarter:data", out.toByteArray());
         });
     }
 

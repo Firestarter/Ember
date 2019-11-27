@@ -36,7 +36,7 @@ public class Ember extends Plugin implements Listener {
 
         getProxy().getScheduler().schedule(this, new PlaytimeCounter(), 0, 1, TimeUnit.MINUTES);
 
-        getProxy().registerChannel("firestarter");
+        getProxy().registerChannel("firestarter:data");
     }
 
     public void onDisable() {
