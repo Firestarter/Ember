@@ -5,6 +5,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import org.bson.Document;
 import xyz.nkomarn.Ember.command.Discord;
 import xyz.nkomarn.Ember.command.Playtime;
+import xyz.nkomarn.Ember.command.Reddit;
 import xyz.nkomarn.Ember.command.Vote;
 import xyz.nkomarn.Ember.listener.JoinEvent;
 import xyz.nkomarn.Ember.listener.VoteEvent;
@@ -31,6 +32,7 @@ public class Ember extends Plugin implements Listener {
         getProxy().getPluginManager().registerListener(this, new VoteEvent());
 
         getProxy().getPluginManager().registerCommand(this, new Discord());
+        getProxy().getPluginManager().registerCommand(this, new Reddit());
         getProxy().getPluginManager().registerCommand(this, new Vote());
         getProxy().getPluginManager().registerCommand(this, new Playtime());
 

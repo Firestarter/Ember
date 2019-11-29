@@ -5,6 +5,10 @@ discord:
   message: "&6&l» &7Join our Discord server: &6discord.gg/yzj9HrF"
   link: "https://discord.gg/yzj9HrF"
 
+reddit:
+  message: "&6&l» &7Join our Reddit community: &6https://www.reddit.com/r/firestartermc/"
+  link: "https://www.reddit.com/r/firestartermc/"
+
 vote:
   message: "&6&l» &7Vote at &6https://git.io/Jew2k&7. You've voted &6[votes] &7times."
   link: "https://git.io/Jew2k"

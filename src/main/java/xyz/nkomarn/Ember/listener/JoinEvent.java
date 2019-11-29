@@ -25,6 +25,7 @@ public class JoinEvent implements Listener {
                     .append("playtime", 0)
                     .append("deaths", 0)
                     .append("votes", 0)
+                    .append("donor", false)
                     .append("backpack", "");
             Ember.playerData.sync().insertOne(playerDocument);
             Ember.instance.getLogger().log(Level.INFO, event.getPlayer().getName()
