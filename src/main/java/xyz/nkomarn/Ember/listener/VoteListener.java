@@ -14,16 +14,15 @@ import xyz.nkomarn.Ember.Ember;
 
 import java.util.concurrent.ForkJoinPool;
 
-public class VoteEvent implements Listener {
-
+public class VoteListener implements Listener {
     @EventHandler
     public void onVote(VotifierEvent event) {
         ForkJoinPool.commonPool().submit(() -> {
             final String username = event.getVote().getUsername();
             ProxyServer.getInstance().getLogger().info(String.format("Received vote from %s.", username));
-            final ProxiedPlayer player = Ember.instance.getProxy().getPlayer(username);
+            final ProxiedPlayer player = Ember.getEmber().getProxy().getPlayer(username);
             final String uuid = player.getUniqueId().toString();
-            Ember.playerData.sync().updateOne(Filters.eq("uuid", uuid), new Document("$inc",
+            Ember.getPlayerData().sync().updateOne(Filters.eq("uuid", uuid), new Document("$inc",
                     new BasicDBObject().append("votes", 1)));
 
             if (!player.isConnected()) return;
@@ -33,5 +32,4 @@ public class VoteEvent implements Listener {
             player.getServer().getInfo().sendData("firestarter:data", out.toByteArray());
         });
     }
-
 }

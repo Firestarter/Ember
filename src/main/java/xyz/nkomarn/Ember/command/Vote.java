@@ -12,13 +12,12 @@ import net.md_5.bungee.api.plugin.Command;
 import org.bson.Document;
 import xyz.nkomarn.Ember.Ember;
 import xyz.nkomarn.Ember.util.Config;
-import xyz.nkomarn.Kerosene.database.subscribers.BasicSubscriber;
+import xyz.nkomarn.Kerosene.database.subscribers.SimpleSubscriber;
 
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Vote extends Command {
-
     public Vote() {
         super("vote");
     }
@@ -31,8 +30,8 @@ public class Vote extends Command {
         if (!(sender instanceof ProxiedPlayer)) return;
         final ProxiedPlayer player = (ProxiedPlayer) sender;
 
-        Ember.playerData.async().find(Filters.eq("uuid", player.getUniqueId().toString()))
-                .subscribe(new BasicSubscriber<Document>() {
+        Ember.getPlayerData().async().find(Filters.eq("uuid", player.getUniqueId().toString()))
+                .subscribe(new SimpleSubscriber<Document>() {
                     public void onNext(final Document doc) {
                         final int votes = doc.getInteger("votes");
                         final TextComponent textComponent = new TextComponent(ChatColor
@@ -44,6 +43,7 @@ public class Vote extends Command {
                             + "Click to open the vote page.").create()));
                         sender.sendMessage(textComponent);
                     }
-                });
+                }
+        );
     }
 }

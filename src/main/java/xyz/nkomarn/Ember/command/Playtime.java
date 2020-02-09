@@ -9,13 +9,12 @@ import net.md_5.bungee.api.plugin.Command;
 import org.bson.Document;
 import xyz.nkomarn.Ember.Ember;
 import xyz.nkomarn.Ember.util.Config;
-import xyz.nkomarn.Kerosene.database.subscribers.BasicSubscriber;
+import xyz.nkomarn.Kerosene.database.subscribers.SimpleSubscriber;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class Playtime extends Command {
-
     public Playtime() {
         super("playtime", "", "joined", "played");
     }
@@ -29,8 +28,8 @@ public class Playtime extends Command {
         if (!(sender instanceof ProxiedPlayer)) return;
         final ProxiedPlayer player = (ProxiedPlayer) sender;
 
-        Ember.playerData.async().find(Filters.eq("uuid", player.getUniqueId().toString()))
-                .subscribe(new BasicSubscriber<Document>() {
+        Ember.getPlayerData().async().find(Filters.eq("uuid", player.getUniqueId().toString()))
+                .subscribe(new SimpleSubscriber<Document>() {
                     public void onNext(Document doc) {
                         final DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
                         final int playtimeMinutes = doc.getInteger("playtime");
@@ -40,7 +39,8 @@ public class Playtime extends Command {
                                         + joined.replace("[joined]", dateFormat.format(joinedTime)) + border));
                         player.sendMessage(textComponent);
                     }
-                });
+                }
+        );
     }
 
     // Converts an integer into a time string

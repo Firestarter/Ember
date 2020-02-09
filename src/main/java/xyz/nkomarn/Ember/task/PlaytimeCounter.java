@@ -9,10 +9,10 @@ import xyz.nkomarn.Ember.Ember;
 public class PlaytimeCounter implements Runnable {
     @Override
     public void run() {
-        for (ProxiedPlayer player : Ember.instance.getProxy().getPlayers()) {
+        for (ProxiedPlayer player : Ember.getEmber().getProxy().getPlayers()) {
             final String uuid = player.getUniqueId().toString();
-            Ember.instance.getProxy().getScheduler().runAsync(Ember.instance, () -> {
-                Ember.playerData.sync().updateOne(Filters.eq("uuid", uuid),
+            Ember.getEmber().getProxy().getScheduler().runAsync(Ember.getEmber(), () -> {
+                Ember.getPlayerData().sync().updateOne(Filters.eq("_id", uuid),
                         new Document("$inc", new BasicDBObject().append("playtime", 1)));
             });
         }

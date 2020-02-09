@@ -10,19 +10,21 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class to easily manage the configuration.
+ */
 public class Config {
-
     private static Configuration config;
 
     public static void loadConfig() {
-        if (!Ember.instance.getDataFolder().exists()) {
-            Ember.instance.getDataFolder().mkdir();
+        if (!Ember.getEmber().getDataFolder().exists()) {
+            Ember.getEmber().getDataFolder().mkdir();
         }
-        File configFile = new File(Ember.instance.getDataFolder(), "config.yml");
+        File configFile = new File(Ember.getEmber().getDataFolder(), "config.yml");
         if (!configFile.exists()) {
             try {
                 configFile.createNewFile();
-                try (InputStream is = Ember.instance.getResourceAsStream("config.yml");
+                try (InputStream is = Ember.getEmber().getResourceAsStream("config.yml");
                      OutputStream os = new FileOutputStream(configFile)) {
                     ByteStreams.copy(is, os);
                 }
@@ -33,7 +35,7 @@ public class Config {
 
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class)
-                    .load(new File(Ember.instance.getDataFolder(), "config.yml"));
+                    .load(new File(Ember.getEmber().getDataFolder(), "config.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

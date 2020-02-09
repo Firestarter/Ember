@@ -10,7 +10,6 @@ import net.md_5.bungee.api.plugin.Command;
 import xyz.nkomarn.Ember.util.Config;
 
 public class Reddit extends Command {
-
     public Reddit() {
         super("reddit");
     }
