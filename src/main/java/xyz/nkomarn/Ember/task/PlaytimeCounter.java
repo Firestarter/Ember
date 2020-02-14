@@ -11,10 +11,9 @@ public class PlaytimeCounter implements Runnable {
     public void run() {
         for (ProxiedPlayer player : Ember.getEmber().getProxy().getPlayers()) {
             final String uuid = player.getUniqueId().toString();
-            Ember.getEmber().getProxy().getScheduler().runAsync(Ember.getEmber(), () -> {
-                Ember.getPlayerData().sync().updateOne(Filters.eq("_id", uuid),
-                        new Document("$inc", new BasicDBObject().append("playtime", 1)));
-            });
+            Ember.getEmber().getProxy().getScheduler().runAsync(Ember.getEmber(), () -> Ember.getPlayerData().sync()
+                    .updateOne(Filters.eq("_id", uuid), new Document("$inc", new BasicDBObject()
+                            .append("playtime", 1))));
         }
     }
 }

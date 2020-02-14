@@ -29,6 +29,7 @@ public class Ember extends Plugin implements Listener {
 
         getProxy().getPluginManager().registerListener(this, new PlayerJoinListener());
         getProxy().getPluginManager().registerListener(this, new VoteListener());
+
         getProxy().getPluginManager().registerCommand(this, new Discord());
         getProxy().getPluginManager().registerCommand(this, new Reddit());
         getProxy().getPluginManager().registerCommand(this, new Vote());

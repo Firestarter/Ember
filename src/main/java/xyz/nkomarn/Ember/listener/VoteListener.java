@@ -22,7 +22,7 @@ public class VoteListener implements Listener {
             ProxyServer.getInstance().getLogger().info(String.format("Received vote from %s.", username));
             final ProxiedPlayer player = Ember.getEmber().getProxy().getPlayer(username);
             final String uuid = player.getUniqueId().toString();
-            Ember.getPlayerData().sync().updateOne(Filters.eq("uuid", uuid), new Document("$inc",
+            Ember.getPlayerData().sync().updateOne(Filters.eq("_id", uuid), new Document("$inc",
                     new BasicDBObject().append("votes", 1)));
 
             if (!player.isConnected()) return;

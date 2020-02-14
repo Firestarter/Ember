@@ -30,7 +30,7 @@ public class Vote extends Command {
         if (!(sender instanceof ProxiedPlayer)) return;
         final ProxiedPlayer player = (ProxiedPlayer) sender;
 
-        Ember.getPlayerData().async().find(Filters.eq("uuid", player.getUniqueId().toString()))
+        Ember.getPlayerData().async().find(Filters.eq("_id", player.getUniqueId().toString()))
                 .subscribe(new SimpleSubscriber<Document>() {
                     public void onNext(final Document doc) {
                         final int votes = doc.getInteger("votes");

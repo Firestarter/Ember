@@ -19,22 +19,21 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PostLoginEvent event) {
         ForkJoinPool.commonPool().submit(() -> {
             final String uuid = event.getPlayer().getUniqueId().toString();
-            final Document existingDocument = Ember.getPlayerData().sync().find(Filters.eq("uuid", uuid)).first();
+            final Document existingDocument = Ember.getPlayerData().sync().find(Filters.eq("_id", uuid)).first();
             if (existingDocument != null) return;
 
             // Create a new player data document
-            final Document playerDocument = new Document("uuid", uuid)
+            final Document playerDocument = new Document("_id", uuid)
                     .append("joined", System.currentTimeMillis())
                     .append("playtime", 0)
                     .append("deaths", 0)
                     .append("votes", 0)
-                    .append("donor", false)
-                    .append("backpack", "");
+                    .append("donor", false);
             Ember.getPlayerData().sync().insertOne(playerDocument);
             Ember.getEmber().getLogger().log(Level.INFO, event.getPlayer().getName() + " joined for the first time.");
 
             // Notify of new player in the Discord notifications channel
-            Webhooks hook = new Webhooks(Config.getString("webhook.notifications"));
+            Webhooks hook = new Webhooks(Config.getString("webhook"));
             hook.addEmbed(new Webhooks.EmbedObject()
                     .setDescription(":checkered_flag: " + event.getPlayer().getName() + " joined!")
                     .setColor(Color.WHITE));
