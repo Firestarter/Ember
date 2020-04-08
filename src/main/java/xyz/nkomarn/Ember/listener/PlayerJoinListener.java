@@ -19,13 +19,10 @@ public class PlayerJoinListener implements Listener {
             try {
                 connection = PlayerData.getConnection();
                 PreparedStatement statement = connection.prepareStatement("INSERT INTO `playerdata` (`uuid`, " +
-                        "`joined`, `playtime`, `votes`, `donor`) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY " +
+                        "`joined`) VALUES (?, ?) ON DUPLICATE KEY " +
                         "UPDATE `uuid` = `uuid`;");
                 statement.setObject(1, event.getPlayer().getUniqueId().toString());
                 statement.setLong(2, System.currentTimeMillis());
-                statement.setInt(3, 0);
-                statement.setInt(4, 0);
-                statement.setBoolean(5, false);
                 statement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
