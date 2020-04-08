@@ -1,46 +1,42 @@
 package xyz.nkomarn.Ember.listener;
 
-import com.mongodb.client.model.Filters;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import org.bson.Document;
 import xyz.nkomarn.Ember.Ember;
-import xyz.nkomarn.Ember.util.Config;
-import xyz.nkomarn.Kerosene.util.Webhooks;
-
-import java.awt.*;
-import java.io.IOException;
-import java.util.concurrent.ForkJoinPool;
-import java.util.logging.Level;
+import xyz.nkomarn.Ember.data.PlayerData;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class PlayerJoinListener implements Listener {
     @EventHandler
-    public void onPlayerJoin(PostLoginEvent event) {
-        ForkJoinPool.commonPool().submit(() -> {
-            final String uuid = event.getPlayer().getUniqueId().toString();
-            final Document existingDocument = Ember.getPlayerData().sync().find(Filters.eq("_id", uuid)).first();
-            if (existingDocument != null) return;
+    public void onPlayerJoin(final PostLoginEvent event) {
+        ProxyServer.getInstance().getScheduler().runAsync(Ember.getEmber(), () -> {
+            Connection connection = null;
 
-            // Create a new player data document
-            final Document playerDocument = new Document("_id", uuid)
-                    .append("joined", System.currentTimeMillis())
-                    .append("playtime", 0)
-                    .append("deaths", 0)
-                    .append("votes", 0)
-                    .append("donor", false);
-            Ember.getPlayerData().sync().insertOne(playerDocument);
-            Ember.getEmber().getLogger().log(Level.INFO, event.getPlayer().getName() + " joined for the first time.");
-
-            // Notify of new player in the Discord notifications channel
-            Webhooks hook = new Webhooks(Config.getString("webhook"));
-            hook.addEmbed(new Webhooks.EmbedObject()
-                    .setDescription(":checkered_flag: " + event.getPlayer().getName() + " joined!")
-                    .setColor(Color.WHITE));
             try {
-                hook.execute();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                connection = PlayerData.getConnection();
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO `playerdata` (`uuid`, " +
+                        "`joined`, `playtime`, `votes`, `donor`) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY " +
+                        "UPDATE `uuid` = `uuid`;");
+                statement.setObject(1, event.getPlayer().getUniqueId().toString());
+                statement.setLong(2, System.currentTimeMillis());
+                statement.setInt(3, 0);
+                statement.setInt(4, 0);
+                statement.setBoolean(5, false);
+                statement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

@@ -1,19 +1,36 @@
 package xyz.nkomarn.Ember.task;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.model.Filters;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.bson.Document;
-import xyz.nkomarn.Ember.Ember;
+import xyz.nkomarn.Ember.data.PlayerData;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class PlaytimeCounter implements Runnable {
     @Override
     public void run() {
-        for (ProxiedPlayer player : Ember.getEmber().getProxy().getPlayers()) {
-            final String uuid = player.getUniqueId().toString();
-            Ember.getEmber().getProxy().getScheduler().runAsync(Ember.getEmber(), () -> Ember.getPlayerData().sync()
-                    .updateOne(Filters.eq("_id", uuid), new Document("$inc", new BasicDBObject()
-                            .append("playtime", 1))));
+        Connection connection = null;
+
+        try {
+            connection = PlayerData.getConnection();
+            for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                PreparedStatement statement = connection.prepareStatement("UPDATE `playerdata` SET " +
+                        "`playtime` = `playtime` + 1 WHERE `uuid` = ?;");
+                statement.setString(1, player.getUniqueId().toString());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

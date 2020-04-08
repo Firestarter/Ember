@@ -1,20 +1,19 @@
-database: "survival"
+database:
+  url: ""
+  username: ""
+  password: ""
 
-discord:
-  message: "&b&lDiscord: &7Join our Discord server: &bdiscord.gg/yzj9HrF"
-  link: "https://discord.gg/yzj9HrF"
-
-reddit:
-  message: "&6&lReddit: &7Join our Reddit community: &6https://www.reddit.com/r/firestartermc/"
-  link: "https://www.reddit.com/r/firestartermc/"
-
-vote:
-  message: "&d&lVote: &7Vote at &dhttps://git.io/Jew2k&7. You've voted &d[votes] &7times."
-  link: "https://git.io/Jew2k"
-
-playtime:
-  border: "&r&m&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  playtime: "&7Playtime: &6[playtime]\n"
-  joined: "&7Join date: &6[joined]\n"
-
-webhook: ""
+messages:
+  discord:
+    message: "&b&lDiscord: &7Join our Discord server: &bdiscord.gg/yzj9HrF"
+    link: "https://discord.gg/yzj9HrF"
+  reddit:
+    message: "&6&lReddit: &7Join our Reddit community: &6https://www.reddit.com/r/firestartermc/"
+    link: "https://www.reddit.com/r/firestartermc/"
+  vote:
+    message: "&d&lVote: &7Vote at &dhttps://git.io/Jew2k&7. You've voted &d[votes] &7times."
+    link: "https://git.io/Jew2k"
+  playtime:
+    border: "&r&m&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    playtime: "&7Playtime: &a[playtime]\n"
+    joined: "&7Join date: &a[joined] UTC\n"

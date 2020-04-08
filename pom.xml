@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>xyz.nkomarn</groupId>
   <artifactId>Ember</artifactId>
-  <version>2.0</version>
+  <version>3.0</version>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,17 +27,33 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.firestartermc</groupId>
-      <artifactId>kerosene</artifactId>
-      <version>fb4333bb7c</version>
-    </dependency>
-    <dependency>
       <groupId>com.vexsoftware</groupId>
       <artifactId>nuvotifier-universal</artifactId>
       <version>2.3.4</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>3.4.2</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>bungeecord-repo</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+    <repository>
+      <id>bintray-repo</id>
+      <url>https://dl.bintray.com/nuvotifier/maven/</url>
+    </repository>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
 
   <build>
     <directory>target</directory>
@@ -51,6 +67,21 @@
         </includes>
       </resource>
     </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -72,19 +103,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <repositories>
-    <repository>
-      <id>bungeecord-repo</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-    <repository>
-      <id>bintray-repo</id>
-      <url>https://dl.bintray.com/nuvotifier/maven/</url>
-    </repository>
-    <repository>
-      <id>jitpack.io</id>
-      <url>https://jitpack.io</url>
-    </repository>
-  </repositories>
 </project>
