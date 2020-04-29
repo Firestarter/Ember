@@ -3,17 +3,23 @@ database:
   username: ""
   password: ""
 
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: ""
+  pool-size: 8
+  timeout: 2000
+
 messages:
   discord:
     message: "&b&lDiscord: &7Join our Discord server: &bdiscord.gg/yzj9HrF"
     link: "https://discord.gg/yzj9HrF"
+  privacy:
+    message: "&5&lPrivacy: &7Read our privacy policy: &5https://firestartermc.com/privacy"
+    link: "https://firestartermc.com/privacy"
   reddit:
-    message: "&6&lReddit: &7Join our Reddit community: &6https://www.reddit.com/r/firestartermc/"
+    message: "&6&lReddit: &7Join our Reddit community: &6https://www.reddit.com/r/firestartermc"
     link: "https://www.reddit.com/r/firestartermc/"
   vote:
-    message: "&d&lVote: &7Vote at &dhttps://git.io/Jew2k&7. You've voted &d[votes] &7times."
-    link: "https://git.io/Jew2k"
-  playtime:
-    border: "&r&m&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    playtime: "&7Playtime: &a[playtime]\n"
-    joined: "&7Join date: &a[joined] UTC\n"
+    message: "&d&lVotes: &7Vote at &dhttps://git.io/JfeSI&7. You've voted &d[votes] &7times."
+    link: "https://git.io/JfeSI"

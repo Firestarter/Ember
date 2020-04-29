@@ -24,6 +24,7 @@ public class PlayerData {
         try {
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(jdbcUrl);
+            config.setDriverClassName("com.mysql.cj.jdbc.Driver");
             config.setUsername(username);
             config.setPassword(password);
             config.addDataSourceProperty("cachePrepStmts", "true");
@@ -41,7 +42,7 @@ public class PlayerData {
      * Closes the connection pool and all connections.
      */
     public static void close() {
-        dataSource.close();
+        if (!dataSource.isClosed()) dataSource.close();
     }
 
     /**

@@ -1,16 +1,17 @@
 package xyz.nkomarn.Ember.command;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
+import com.velocitypowered.api.command.Command;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.text.TextComponent;
+import net.kyori.text.event.ClickEvent;
+import net.kyori.text.event.HoverEvent;
+import net.kyori.text.format.TextColor;
+import ninja.leaping.configurate.ConfigurationNode;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import xyz.nkomarn.Ember.Ember;
 import xyz.nkomarn.Ember.data.PlayerData;
+import xyz.nkomarn.Ember.util.ChatColor;
 import xyz.nkomarn.Ember.util.Config;
 
 import java.sql.Connection;
@@ -20,50 +21,32 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class VoteCommand extends Command {
-    public VoteCommand() {
-        super("vote");
-    }
-
+public class VoteCommand implements Command {
     @Override
-    public void execute(CommandSender sender, String[] args) {
-        final String messageFormat = Config.getString("messages.vote.message");
-        final String voteLink = Config.getString("messages.vote.link");
+    public void execute(@NonNull CommandSource sender, @NonNull String[] args) {
+        if (!(sender instanceof Player)) return;
 
-        if (!(sender instanceof ProxiedPlayer)) return;
-        final ProxiedPlayer player = (ProxiedPlayer) sender;
-
-        ProxyServer.getInstance().getScheduler().runAsync(Ember.getEmber(), () -> {
-            Connection connection = null;
-
-            try {
-                connection = PlayerData.getConnection();
-                PreparedStatement statement = connection.prepareStatement("SELECT `votes` FROM `playerdata` " +
-                        "WHERE `uuid` = ?;");
-                statement.setString(1, player.getUniqueId().toString());
-                ResultSet result = statement.executeQuery();
-
-                while (result.next()) {
-                    final TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&',
-                            messageFormat.replace("[votes]", NumberFormat.getNumberInstance(Locale.US)
-                                    .format(result.getInt(1)))
-                    ));
-                    message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, voteLink));
-                    message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                            new ComponentBuilder(ChatColor.GOLD + "Click to open the vote page.").create()));
-                    player.sendMessage(message);
+        Ember.getProxy().getScheduler().buildTask(Ember.getEmber(), () -> {
+            try (Connection connection = PlayerData.getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement("SELECT `votes` FROM `playerdata` " +
+                        "WHERE `uuid` = ?;")) {
+                    statement.setString(1, ((Player) sender).getUniqueId().toString());
+                    try (ResultSet result = statement.executeQuery()) {
+                        if (result.next()) {
+                            ConfigurationNode voteNode = Config.getRoot().getNode("messages").getNode("vote");
+                            TextComponent textComponent = TextComponent.builder(ChatColor.translate('&', voteNode
+                                    .getNode("message").getString().replace("[votes]", NumberFormat.getNumberInstance(Locale.US)
+                                            .format(result.getInt(1)))))
+                                    .hoverEvent(HoverEvent.showText(TextComponent.of("Click to open the vote page.").color(TextColor.GRAY)))
+                                    .clickEvent(ClickEvent.openUrl(voteNode.getNode("link").getString()))
+                                    .build();
+                            sender.sendMessage(textComponent);
+                        }
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
-        });
+        }).schedule();
     }
 }
