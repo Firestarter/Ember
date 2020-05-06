@@ -1,35 +1,39 @@
 package xyz.nkomarn.Ember.command;
 
-import com.velocitypowered.api.command.Command;
-import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.proxy.Player;
-import net.kyori.text.TextComponent;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import xyz.nkomarn.Ember.Ember;
-import xyz.nkomarn.Ember.util.ChatColor;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Command;
+import xyz.nkomarn.Ember.util.Config;
 
-public class PingCommand implements Command {
+public class PingCommand extends Command {
+    public PingCommand() {
+        super("ping");
+    }
+
     @Override
-    public void execute(@NonNull CommandSource sender, @NonNull String[] args) {
-        if (!(sender instanceof Player)) return;
-
-        if (args.length < 1) {
-            TextComponent textComponent = TextComponent.of(ChatColor.translate('&', String.format(
-                    "&6&l» &7Your current ping is %s ms.", ((Player) sender).getPing()
+    public void execute(CommandSender sender, String[] args) {
+        if (!(sender instanceof ProxiedPlayer)) {
+            sender.sendMessage(new ComponentBuilder(ChatColor.RED + "This command can only be used by players.").create());
+        } else if (args.length < 1) {
+            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', String.format(
+                    Config.getString("messages.ping.your-ping"), ((ProxiedPlayer) sender).getPing()
             )));
-            sender.sendMessage(textComponent);
+            sender.sendMessage(message);
         } else {
-            Player onlinePlayer = Ember.getProxy().getPlayer(args[0]).orElse(null);
-            if (onlinePlayer == null) {
-                TextComponent textComponent = TextComponent.of(ChatColor.translate('&',
-                        "&c&l» &7That player isn't online."
-                ));
-                sender.sendMessage(textComponent);
-            } else {
-                TextComponent textComponent = TextComponent.of(ChatColor.translate('&', String.format(
-                        "&6&l» &7%s's ping is %s ms.", onlinePlayer.getUsername(), onlinePlayer.getPing()
+            ProxiedPlayer otherPlayer = ProxyServer.getInstance().getPlayer(args[0]);
+            if (otherPlayer != null) {
+                TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', String.format(
+                        Config.getString("messages.ping.others-ping"), otherPlayer.getName(), otherPlayer.getPing()
                 )));
-                sender.sendMessage(textComponent);
+                sender.sendMessage(message);
+            } else {
+                TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                        Config.getString("messages.ping.not-online")));
+                sender.sendMessage(message);
             }
         }
     }

@@ -14,6 +14,10 @@ messages:
   discord:
     message: "&b&lDiscord: &7Join our Discord server: &bdiscord.gg/yzj9HrF"
     link: "https://discord.gg/yzj9HrF"
+  ping:
+    your-ping: "&6&l» &7Your current ping is &6%s &7ms."
+    others-ping: "&6&l» &7%s's ping is &6%s &7ms."
+    not-online: "&c&l» &7That player isn't online."
   privacy:
     message: "&5&lPrivacy: &7Read our privacy policy: &5https://firestartermc.com/privacy"
     link: "https://firestartermc.com/privacy"
@@ -21,5 +25,5 @@ messages:
     message: "&6&lReddit: &7Join our Reddit community: &6https://www.reddit.com/r/firestartermc"
     link: "https://www.reddit.com/r/firestartermc/"
   vote:
-    message: "&d&lVotes: &7Vote at &dhttps://git.io/JfeSI&7. You've voted &d[votes] &7times."
+    message: "&d&lVotes: &7Vote at &dhttps://git.io/JfeSI&7. You've voted &d%s &7times."
     link: "https://git.io/JfeSI"

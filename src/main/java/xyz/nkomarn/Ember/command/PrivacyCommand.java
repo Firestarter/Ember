@@ -1,24 +1,26 @@
 package xyz.nkomarn.Ember.command;
 
-import com.velocitypowered.api.command.Command;
-import com.velocitypowered.api.command.CommandSource;
-import net.kyori.text.TextComponent;
-import net.kyori.text.event.ClickEvent;
-import net.kyori.text.event.HoverEvent;
-import net.kyori.text.format.TextColor;
-import ninja.leaping.configurate.ConfigurationNode;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import xyz.nkomarn.Ember.util.ChatColor;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.plugin.Command;
 import xyz.nkomarn.Ember.util.Config;
 
-public class PrivacyCommand implements Command {
+public class PrivacyCommand extends Command {
+    public PrivacyCommand() {
+        super("privacy");
+    }
+
     @Override
-    public void execute(@NonNull CommandSource sender, @NonNull String[] args) {
-        ConfigurationNode privacyNode = Config.getRoot().getNode("messages").getNode("privacy");
-        TextComponent textComponent = TextComponent.builder(ChatColor.translate('&', privacyNode.getNode("message").getString()))
-                .hoverEvent(HoverEvent.showText(TextComponent.of("Click to read the privacy policy.").color(TextColor.GRAY)))
-                .clickEvent(ClickEvent.openUrl(privacyNode.getNode("link").getString()))
-                .build();
-        sender.sendMessage(textComponent);
+    public void execute(CommandSender sender, String[] args) {
+        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                Config.getString("messages.privacy.message")));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder(ChatColor.GRAY + "Click to read the privacy policy").create()));
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, Config.getString("messages.privacy.link")));
+        sender.sendMessage(message);
     }
 }

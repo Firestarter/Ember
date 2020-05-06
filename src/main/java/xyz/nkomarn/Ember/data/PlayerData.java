@@ -24,7 +24,6 @@ public class PlayerData {
         try {
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(jdbcUrl);
-            config.setDriverClassName("com.mysql.cj.jdbc.Driver");
             config.setUsername(username);
             config.setPassword(password);
             config.addDataSourceProperty("cachePrepStmts", "true");
