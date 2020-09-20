@@ -1,5 +1,7 @@
-package xyz.nkomarn.Ember.command;
+package com.firestartermc.ember.command;
 
+import com.firestartermc.ember.data.DataManager;
+import com.google.common.collect.ImmutableList;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -7,11 +9,18 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import xyz.nkomarn.Ember.util.Config;
+import com.firestartermc.ember.util.Config;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-public class PingCommand extends Command {
-    public PingCommand() {
+import java.util.stream.Collectors;
+
+public class PingCommand extends Command implements TabExecutor {
+
+    private final DataManager dataManager;
+
+    public PingCommand(DataManager dataManager) {
         super("ping");
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -36,5 +45,12 @@ public class PingCommand extends Command {
                 sender.sendMessage(message);
             }
         }
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        return this.dataManager.getVisiblePlayers().stream()
+                .map(ProxiedPlayer::getName)
+                .collect(Collectors.toSet());
     }
 }

@@ -1,4 +1,4 @@
-package xyz.nkomarn.Ember.data;
+package com.firestartermc.ember.data;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -11,6 +11,7 @@ import java.sql.SQLException;
  * to playerdata database connections.
  */
 public class PlayerData {
+
     private static HikariDataSource dataSource;
 
     /**

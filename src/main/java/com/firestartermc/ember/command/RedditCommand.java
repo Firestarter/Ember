@@ -1,5 +1,6 @@
-package xyz.nkomarn.Ember.command;
+package com.firestartermc.ember.command;
 
+import com.firestartermc.ember.util.Config;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -7,9 +8,9 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
-import xyz.nkomarn.Ember.util.Config;
 
 public class RedditCommand extends Command {
+
     public RedditCommand() {
         super("reddit");
     }
@@ -23,4 +24,5 @@ public class RedditCommand extends Command {
                 new ComponentBuilder(ChatColor.GRAY + "Click to visit the Reddit community.").create()));
         sender.sendMessage(textComponent);
     }
+
 }

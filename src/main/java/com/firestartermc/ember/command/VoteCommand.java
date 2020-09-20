@@ -1,5 +1,8 @@
-package xyz.nkomarn.Ember.command;
+package com.firestartermc.ember.command;
 
+import com.firestartermc.ember.Ember;
+import com.firestartermc.ember.data.PlayerData;
+import com.firestartermc.ember.util.Config;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -9,9 +12,6 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import xyz.nkomarn.Ember.Ember;
-import xyz.nkomarn.Ember.data.PlayerData;
-import xyz.nkomarn.Ember.util.Config;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class VoteCommand extends Command {
+
     public VoteCommand() {
         super("vote");
     }
