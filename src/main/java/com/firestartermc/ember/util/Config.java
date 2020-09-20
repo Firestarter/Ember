@@ -1,13 +1,12 @@
-package xyz.nkomarn.Ember.util;
+package com.firestartermc.ember.util;
 
+import com.firestartermc.ember.Ember;
 import com.google.common.io.ByteStreams;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
-import xyz.nkomarn.Ember.Ember;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,5 +78,9 @@ public class Config {
      */
     public static double getDouble(final String location) {
         return config.getDouble(location, 0.0);
+    }
+
+    public static List<String> getStringList(final String location) {
+        return config.getStringList(location);
     }
 }

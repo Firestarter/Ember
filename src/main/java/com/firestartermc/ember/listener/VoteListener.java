@@ -1,17 +1,19 @@
-package xyz.nkomarn.Ember.listener;
+package com.firestartermc.ember.listener;
 
+import com.firestartermc.ember.Ember;
+import com.firestartermc.ember.data.PlayerData;
 import com.vexsoftware.votifier.bungee.events.VotifierEvent;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import xyz.nkomarn.Ember.Ember;
-import xyz.nkomarn.Ember.data.PlayerData;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class VoteListener implements Listener {
+
     @EventHandler
     public void onVote(final VotifierEvent event) {
         ProxiedPlayer player = ProxyServer.getInstance().getPlayer(event.getVote().getUsername());
@@ -29,4 +31,5 @@ public class VoteListener implements Listener {
             }
         });
     }
+
 }

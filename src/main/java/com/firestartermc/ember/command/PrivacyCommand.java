@@ -1,4 +1,4 @@
-package xyz.nkomarn.Ember.command;
+package com.firestartermc.ember.command;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -7,9 +7,10 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
-import xyz.nkomarn.Ember.util.Config;
+import com.firestartermc.ember.util.Config;
 
 public class PrivacyCommand extends Command {
+
     public PrivacyCommand() {
         super("privacy");
     }
@@ -23,4 +24,5 @@ public class PrivacyCommand extends Command {
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, Config.getString("messages.privacy.link")));
         sender.sendMessage(message);
     }
+
 }
