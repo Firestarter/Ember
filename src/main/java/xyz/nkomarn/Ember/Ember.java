@@ -28,7 +28,6 @@ public class Ember extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new PingCommand());
         getProxy().getPluginManager().registerCommand(this, new PrivacyCommand());
         getProxy().getPluginManager().registerCommand(this, new RedditCommand());
-        getProxy().getPluginManager().registerCommand(this, new VoteCommand());
     }
 
     public void onDisable() {
